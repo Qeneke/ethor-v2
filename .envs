@@ -1,0 +1,4 @@
+ENGINE_API_KEY=service:examplename:examplehash
+API_SERVER_AUTH_KEY=example_key
+API_SERVER_AUTH_ITEM=example_item
+APPS=app_name

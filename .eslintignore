@@ -1,0 +1,16 @@
+**/*{.,-}min.js
+**/*{.,-}min.ts
+
+node_modules
+
+build
+
+**/*.test.ts
+**/*.test.js
+
+**/*.types.ts
+
+next-env.d.ts
+
+package.json
+package-lock.json
