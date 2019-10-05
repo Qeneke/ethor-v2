@@ -37,7 +37,7 @@ envs.map(env => {
   return env;
 });
 
-const env = parse(readFileSync(resolve(__dirname, "../public.env")));
+const env = parse(readFileSync(resolve(process.cwd(), "public.env")));
 
 const apps = [
   {
@@ -111,7 +111,7 @@ apps.map(app => {
   process.env[`${app.name}_PROTOCOL`] = app.envs.SSL ? "https" : "http";
   process.env[`${app.name}_LOCALHOST_LINK`] = `${
     process.env[`${app.name}_PROTOCOL`]
-  }://localhost:${process.env[`${app.name}_PORT`]}`;
+    }://localhost:${process.env[`${app.name}_PORT`]}`;
   return {};
 });
 

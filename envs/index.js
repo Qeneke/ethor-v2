@@ -14,14 +14,18 @@ const constants = {
     API_NODEJS_GRAPHQL_PORT: "API_NODEJS_GRAPHQL_PORT"
 };
 const envs = [
-    { ...config({
-        debug: process.env.DEBUG,
-        path: resolve(process.cwd(), ".env")
-    }), cfName: "secret"},
-    { ...config({
-        debug: process.env.DEBUG,
-        path: resolve(process.cwd(), "public.env")
-    }), cfName: "public"}
+    {
+        ...config({
+            debug: process.env.DEBUG,
+            path: resolve(process.cwd(), ".env")
+        }), cfName: "secret"
+    },
+    {
+        ...config({
+            debug: process.env.DEBUG,
+            path: resolve(process.cwd(), "public.env")
+        }), cfName: "public"
+    }
 ];
 envs.map(env => {
     if (env.error) {
@@ -29,7 +33,7 @@ envs.map(env => {
     }
     return env;
 });
-const env = parse(readFileSync(resolve(__dirname, "../public.env")));
+const env = parse(readFileSync(resolve(process.cwd(), "public.env")));
 const apps = [
     {
         name: "thenlo",
@@ -95,5 +99,5 @@ apps.map(app => {
     process.env[`${app.name}_LOCALHOST_LINK`] = `${process.env[`${app.name}_PROTOCOL`]}://localhost:${process.env[`${app.name}_PORT`]}`;
     return {};
 });
-const publicEnvs = { ...env, ...envsCustom};
+const publicEnvs = { ...env, ...envsCustom };
 module.exports = { publicEnvs };
