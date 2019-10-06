@@ -15,11 +15,9 @@ export default ({
     const _routes = app._router;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any,no-inner-declarations,@typescript-eslint/no-unused-vars
     function removeMiddlewares(route: any, i: any, routes: any): void {
-      if (!route.handle.name) {
-        // if (!route.handle.name) {
-        // eslint-disable-next-line no-param-reassign
-        routes = routes.splice(i, 1);
-      }
+      // if (!route.handle.name) {
+      // eslint-disable-next-line no-param-reassign
+      routes = routes.splice(i, 1);
       // }
       if (route.route) route.route.stack.forEach(removeMiddlewares);
     }
@@ -30,7 +28,15 @@ export default ({
   const port = getProcessEnv(`${appName}_PORT`) as string | number;
   const link = getProcessEnv(`${appName}_LOCALHOST_LINK`) as string;
 
-  const servicesPath = join(__dirname, "../services");
+  const servicesPath = join(
+    process.cwd(),
+    "src",
+    "nodejs",
+    "api",
+    appName,
+    "graphql",
+    "services"
+  );
   const services = readdirSync(servicesPath).filter((f): boolean =>
     statSync(join(servicesPath, f)).isDirectory()
   );

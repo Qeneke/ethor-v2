@@ -3,8 +3,11 @@ import "./load";
 import { isDev, getProcessEnv } from "@@src/nodejs/utils/helpers";
 import { join } from "path";
 import { readdirSync, statSync } from "fs";
+import { removeSync } from "fs-extra";
 
 const Server = require("@@src/nodejs/utils/server").default;
+
+// removeSync(`${process.cwd()}/_@graphql_types`);
 
 (process.env.APPS as string).split(",").map((appName: string) => {
   const server = new Server({ appName });
@@ -22,7 +25,9 @@ const Server = require("@@src/nodejs/utils/server").default;
       const link = getProcessEnv(`${appName}_LOCALHOST_LINK`);
       const path = `${getProcessEnv("ALL_PATH_GRAPHQL")}`;
       const servicesPath = join(
-        __dirname,
+        process.cwd(),
+        "src",
+        "nodejs",
         "api",
         appName,
         "graphql",
@@ -74,16 +79,18 @@ const Server = require("@@src/nodejs/utils/server").default;
     };
     graphqlGenerate();
 
-    const paths = [`api/${appName}`];
+    const paths = [
+      join(process.cwd(), "src", "nodejs", "api", appName)// , "graphql", "services")
+    ];
     const pathCheck = (id: string): boolean[] => {
       return paths.map((path): boolean => {
-        return id.startsWith(join(__dirname, path));
+        return id.startsWith(path);
       });
     };
     const chokidar = require("chokidar");
     return paths.map((watcherPath): string => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      const watcher = chokidar.watch(join(__dirname, watcherPath));
+      const watcher = chokidar.watch(watcherPath);
       watcher.on("ready", (): void => {
         watcher.on("all", (event: string, dir: string): void => {
           // eslint-disable-next-line no-console

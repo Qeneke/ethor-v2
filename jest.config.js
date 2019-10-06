@@ -20,7 +20,7 @@ const projects = [{
 }];
 
 process.env.APPS.split(",").map((app) => {
-    if(process.env[`${app}_WWW_NEXTJS`]==="true"){
+    if (process.env[`${app}_WWW_NEXTJS`] === "true") {
         projects.push({
             displayName: `www:nextjs:${app}`,
             roots: [

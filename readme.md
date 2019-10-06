@@ -52,3 +52,4 @@
 !sentry.io
 !joi
 !benchmark
+!remove _@graphql_types

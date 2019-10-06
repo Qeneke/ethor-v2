@@ -2,7 +2,7 @@ import {
   UserConnection,
   Resolvers,
   UserEdge
-} from "@@graphql/thenlo/account.types";
+} from "@@graphql/thenlo_game/account.types";
 
 const users = {
   pageInfo: {

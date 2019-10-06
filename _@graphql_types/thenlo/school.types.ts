@@ -110,6 +110,7 @@ export type ViewerSchoolsArgs = {
 };
 
 
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
@@ -202,7 +203,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Query: {},
   _Any: Scalars['_Any'],
-  _Entity: ResolversTypes['SchoolEdge'] | ResolversTypes['Viewer'],
+  _Entity: ResolversParentTypes['SchoolEdge'] | ResolversParentTypes['Viewer'],
   SchoolEdge: SchoolEdge,
   String: Scalars['String'],
   School: School,

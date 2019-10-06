@@ -8,16 +8,24 @@ import selfsigned from "selfsigned";
 import cookieParser from "cookie-parser";
 import next from "next";
 import helmet from "helmet";
+import { join } from "path";
 import csp from "@@src/nodejs/utils/server/csp";
+import { publicEnvs } from '../../../../envs';
 
 class Server {
   private _app: express.Application;
 
   private _appName: string;
 
+  private _web: boolean
+
+  private _api: boolean
+
   public constructor({ appName }: { appName: string }) {
     this._app = express();
     this._appName = appName;
+    this._web = false;
+    this._api = false;
   }
 
   public start(): void {
@@ -25,14 +33,16 @@ class Server {
     if (
       getProcessEnv("_API", true) &&
       getProcessEnv(`${this._appName}_API_NODEJS_GRAPHQL`) === "true"
-    )
+    ) {
+      this._api = true;
       this.api();
-    if (
+    } if (
       getProcessEnv("_WEB", true) &&
       getProcessEnv(`${this._appName}_WWW_NEXTJS`) === "true"
-    )
+    ) {
+      this._web = true;
       this.web();
-    this.end();
+    } this.end();
     this.listen();
   }
 
@@ -49,8 +59,8 @@ class Server {
     if (getProcessEnv(`${this._appName}_API_NODEJS_GRAPHQL`) === "false") {
       return;
     }
-    if (require(`../../api/${this._appName}`).default.GraphqlApi) {
-      require(`../../api/${this._appName}`).default.GraphqlApi({
+    if (require(join((publicEnvs as { buildDir: string }).buildDir, "src", "nodejs", "api", this._appName)).default.GraphqlApi) {
+      require(join((publicEnvs as { buildDir: string }).buildDir, "src", "nodejs", "api", this._appName)).default.GraphqlApi({
         app: this._app,
         appName: this._appName
       });
@@ -62,7 +72,7 @@ class Server {
   }
 
   public async web(): Promise<void> {
-    const app = next({ dev: isDev(), dir: `./www/nextjs/${this._appName}` });
+    const app = next({ dev: isDev(), dir: `${process.cwd()}/www/nextjs/${this._appName}` });
     const handle = app.getRequestHandler();
     await app.prepare();
     // app.setAssetPrefix("/prefix/");
@@ -136,14 +146,14 @@ class Server {
       }
       new Logger(
         `${this._appName}:app:start_http${
-          getProcessEnv("_SSL", true) === "true" ? "s" : ""
+        getProcessEnv("_SSL", true) === "true" ? "s" : ""
         }`
       )
         .isLogging(true)
         .createLog(
           `App listening on port ${getProcessEnv(
             `${this._appName}_PORT`
-          )}! link: ${getProcessEnv(`${this._appName}_LOCALHOST_LINK`)}`
+          )}! link: ${getProcessEnv(`${this._appName}_LOCALHOST_LINK`)}${this._api ? " API" : ""}${this._web ? " WEB" : ""}`
         );
     });
   }

@@ -1,3 +1,43 @@
 {
-    "eslint.enable": true
+    /* ESLINT */
+    "eslint.enable": true,
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        {
+            "language": "typescript",
+            "autoFix": true
+        },
+        {
+            "language": "typescriptreact",
+            "autoFix": true
+        }
+    ],
+    /* EDITOR */
+    "editor.formatOnSave": true,
+    // "[javascript]": {
+    //   "editor.formatOnSave": false,
+    // },
+    // "[javascriptreact]": {
+    //   "editor.formatOnSave": false,
+    // },
+    // "[typescript]": {
+    //   "editor.formatOnSave": false,
+    // },
+    // "[typescriptreact]": {
+    //   "editor.formatOnSave": false,
+    // }
+    /* OTHERS */
+    "workbench.iconTheme": "vscode-icons",
+    "editor.renderWhitespace": "all",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/_@graphql_types": true,
+        //"**/node_modules": true
+    }
 }

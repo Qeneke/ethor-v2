@@ -2,7 +2,7 @@ import {
   SchoolConnection,
   Resolvers,
   School
-} from "@@graphql/thenlo/school.types";
+} from "@@graphql/thenlo_game/school.types";
 
 const schools = {
   pageInfo: {

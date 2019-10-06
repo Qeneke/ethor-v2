@@ -1,5 +1,3 @@
-
-
 /* eslint-disable @typescript-eslint/no-var-requires,no-console,no-underscore-dangle */
 const { config, parse } = require("dotenv");
 const { resolve } = require("path");
@@ -72,8 +70,6 @@ apps.map(app => {
     if (!process.env.APPS.split(",").includes(app.name))
         return {};
     return Object.keys(app.envs).map(envApp => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
         // eslint-disable-next-line security/detect-object-injection
         envsCustom[`${app.name}_${envApp}`] = app.envs[envApp];
         return {};
@@ -96,8 +92,12 @@ apps.map(app => {
             .WWW_NEXTJS_PORT;
     }
     process.env[`${app.name}_PROTOCOL`] = app.envs.SSL ? "https" : "http";
-    process.env[`${app.name}_LOCALHOST_LINK`] = `${process.env[`${app.name}_PROTOCOL`]}://localhost:${process.env[`${app.name}_PORT`]}`;
+    process.env[`${app.name}_LOCALHOST_LINK`] = `${process.env[`${app.name}_PROTOCOL`]}://${process.env.ALL_APP_LINK}:${process.env[`${app.name}_PORT`]}`;
     return {};
 });
 const publicEnvs = { ...env, ...envsCustom };
+
+const buildDir = process.env.NODE_ENV !== "production" ? `${process.cwd()}` : `${process.cwd()}/build`;
+publicEnvs.buildDir = buildDir;
+
 module.exports = { publicEnvs };

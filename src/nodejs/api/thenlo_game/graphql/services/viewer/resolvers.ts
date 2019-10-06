@@ -1,4 +1,4 @@
-import { Viewer, Resolvers } from "@@graphql/thenlo/viewer.types";
+import { Viewer, Resolvers } from "@@graphql/thenlo_game/viewer.types";
 
 const resolvers: Resolvers = {
   Query: {

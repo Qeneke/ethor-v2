@@ -80,6 +80,7 @@ export type Viewer = Node & {
 };
 
 
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
@@ -169,7 +170,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Query: {},
   _Any: Scalars['_Any'],
-  _Entity: ResolversTypes['Viewer'],
+  _Entity: ResolversParentTypes['Viewer'],
   Viewer: Viewer,
   Node: Node,
   ID: Scalars['ID'],
